@@ -45,13 +45,13 @@ int main(/*char** received*/) {
         if (boundsString[i] == '$') {
             // As we stated above, to have the beginning of the bound we used stated codes
             // and now to have the end of the bound we should have the last number before $ sign
-            int endNumber = atoi(number);
-            finders[boundCnt].end = endNumber;
+            int length = atoi(number);
+            finders[boundCnt].end = length + finders[boundCnt].start;
             // In the next line we empty the number string 
             memset(number, 0, strlen(number));
             char str[10000] = "";
             // In the next function we find the substring and that will be stored in str
-            findSubStr(proccessString, finders[boundCnt].start, endNumber, str);
+            findSubStr(proccessString, finders[boundCnt].start, finders[boundCnt].end, str);
             int k;
             // In the following code we copy str to the finder's str
             for (k = 0; str[k] != '\0'; k++)
