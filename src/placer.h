@@ -1,0 +1,1 @@
+char* replaceWord(const char*, const char*);

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "placer.h"
 
 
 char* replaceWord(const char* s,
@@ -58,25 +59,25 @@ char* replaceAllWord(char newWord[][10],const char* s){
     
 }
 
-int main()
-{
-	char str[] = "salam $ khobi $ . $";
+// int main()
+// {
+// 	char str[] = "salam $ khobi $ . $";
 	
-	char ch_arr[3][10] = {
-                         "spike",
-                         "tom",
-                         "jerry"
-                     };
+// 	char ch_arr[3][10] = {
+//                          "spike",
+//                          "tom",
+//                          "jerry"
+//                      };
 
-	char* result = NULL;
+// 	char* result = NULL;
 
 
-	printf("Old string: %s\n", str);
+// 	printf("Old string: %s\n", str);
 
-	result = replaceAllWord(ch_arr,str);
-	printf("New String: %s\n", result);
+// 	result = replaceAllWord(ch_arr,str);
+// 	printf("New String: %s\n", result);
 
-	free(result);
-	return 0;
-}
+// 	free(result);
+// 	return 0;
+// }
 
