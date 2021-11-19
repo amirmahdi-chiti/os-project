@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "decoder.h"
+#include "placer.h"
 
 int main() {
     pid_t decoder, finder, placer;
@@ -34,17 +36,19 @@ int main() {
         placer = fork();
     }
 
+    int f;
+
     // It means that we are in the child process of decoder
     if (decoder == 0) {
-        
+        f = open(fifos[0], O_RDONLY);
     }
     // It means that we are in the child process of finder 
     if (finder == 0) {
-
+        f = open(fifos[1], O_RDONLY);
     }
     // It means that we are in the child process of placer
     if (placer == 0) {
-
+        f = open(fifos[2], O_RDONLY);
     }
 
     return 0;
