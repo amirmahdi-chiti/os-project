@@ -27,25 +27,32 @@ char** splitInput(char* s,char* deli){
     }
     printf("end 1 = %d\n", end1);
     printf("end 2 = %d\n", end2);
+    int k;
     for (int i = 0; i < end1; i++)
     {
         strArr[0][i] = s[i];
-
     }
-    for (int i = end1+3; i < end2; i++)
+    strArr[0][end1] = '\0';
+    k = 0;
+    for (int i = end1 + 3; i < end2; i++, k++)
     {
-        strArr[1][i] = s[i];
-    }for (int i = end2+3; i < strlen(s); i++)
-    {
-        
-        strArr[2][i] = s[i];
+        strArr[1][k] = s[i];
+        // printf("%c", strArr[1][i]);
     }
+    // printf("%c\n", strArr[1][2]);
+    strArr[1][k] = '\0';
+    k = 0;
+    for (int i = end2 + 3; i < strlen(s); i++, k++)
+    {  
+        strArr[2][k] = s[i];
+    }
+    strArr[2][k] = '\0';
     return strArr;
 }
 int main()
 {
 	char str[] = "Geeks###for###Geeks";
-    char** arr=NULL;
+    char** arr;
     char deli[] = "###";
     arr = splitInput(str,deli);
     printf("%s\n", arr[0]);
