@@ -35,8 +35,8 @@ int main(){
 
             // Take an input arr2ing from user.
             // 80 is maximum length
-            //fgets(arr2, 80, stdin);
-            strcpy(arr2,"slama\nkhobi");
+            fgets(arr2, 80, stdin);
+            // strcpy(arr2,"slama\nkhobi");
             
             arr2[strlen(arr2)-1] = '\0';
             // Write the input arr2ing on FIFO

@@ -5,12 +5,7 @@
 
 void findSubStr(char[], int, int, char[]);
 
-int main(/*char** received*/) {
-    // "received[0]" is the the bounds string which is the string we
-    // want to decode the bounds from.
-    char boundsString[10000] = "1 2$5 6$7 11$";/*received[0];*/
-    char proccessString[10000] = "Hello this is Majid Dareini from Sabzevar";/*received[1];*/
-    
+struct Finder* finder(char processString[], char boundsString[]) {
     // "Finder"s which will be used to store the bounds. in the first
     // loop just bounds and in the second loop the string will be 
     // extracted completely
@@ -43,7 +38,7 @@ int main(/*char** received*/) {
             memset(number, 0, strlen(number));
             char str[10000] = "";
             // In the next function we find the substring and that will be stored in str
-            findSubStr(proccessString, finders[boundCnt].start, finders[boundCnt].end, str);
+            findSubStr(processString, finders[boundCnt].start, finders[boundCnt].end, str);
             int k;
             // In the following code we copy str to the finder's str
             for (k = 0; str[k] != '\0'; k++)
@@ -53,16 +48,27 @@ int main(/*char** received*/) {
         }
     }
 
-    // This is just an example output to see that the code works correct
-    // and after being sure it will be changed.
-    for (int i = 0; i < boundCnt; i++) {
-        printf("the string is:\"%s\" and begins from %d and ends in %d.\n"
-        , finders[i].str, finders[i].start, finders[i].end);
-    }
-    
-    return 0;
-
+    return finders;
 }
+
+// int main(/*char** received*/) {
+//     // "received[0]" is the the bounds string which is the string we
+//     // want to decode the bounds from.
+//     char boundsString[10000] = "1 2$5 6$7 11$";/*received[0];*/
+//     char proccessString[10000] = "Hello this is Majid Dareini from Sabzevar";/*received[1];*/
+    
+    
+
+//     // This is just an example output to see that the code works correct
+//     // and after being sure it will be changed.
+//     for (int i = 0; i < boundCnt; i++) {
+//         printf("the string is:\"%s\" and begins from %d and ends in %d.\n"
+//         , finders[i].str, finders[i].start, finders[i].end);
+//     }
+    
+//     return 0;
+
+// }
 
 // In the next function we find the substring and that will be stored in str
 void findSubStr(char str[], int s, int e, char result[]) {
