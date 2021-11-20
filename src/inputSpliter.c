@@ -25,8 +25,8 @@ char** splitInput(char* s,char* deli){
             
         }
     }
-    printf("end 1 = %d\n", end1);
-    printf("end 2 = %d\n", end2);
+    //printf("end 1 = %d\n", end1);
+    //printf("end 2 = %d\n", end2);
     int k;
     for (int i = 0; i < end1; i++)
     {
