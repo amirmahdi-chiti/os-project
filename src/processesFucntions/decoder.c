@@ -32,7 +32,7 @@ char *decodeText(char *message)
 			}
 			message[i] = ch;
 		}
-		else if (ch >= 'A' && ch <= 'Z')
+		else if (ch >= 'A' && ch <= 'Z') 
 		{
 			ch = ch - key;
 			if (ch < 'A')
