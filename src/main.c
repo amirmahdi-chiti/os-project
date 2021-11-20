@@ -51,6 +51,7 @@ int main(){
         fd4 = open(myfifo4,O_WRONLY);
         read(fd1, str1, 80);
         close(fd1);
+        strcat(str1,"fork1");
         write(fd4,str1,strlen(str1)+1);
         close(fd4);
         p2 = fork();
@@ -62,15 +63,18 @@ int main(){
         else if (p2==0)
         {
             char str2[80];
+            char str3[80];
             mkfifo(myfifo2, 0666);
             fd2 = open(myfifo2,O_RDONLY);
             mkfifo(myfifo4, 0666);
             fd4 = open(myfifo4,O_RDONLY);
             mkfifo(myfifo5, 0666);
-            fd4 = open(myfifo5,O_WRONLY);
+            fd5 = open(myfifo5,O_WRONLY);
             read(fd2, str2, 80);
             close(fd2);
-            write(fd5,str2,strlen(str2)+1);
+            read(fd4, str3, 80);
+            close(fd4);
+            write(fd5,strcat(str2,str3),strlen(str2)+1);
             close(fd5);
             p3 = fork();
             if (p3 < 0)
@@ -80,14 +84,18 @@ int main(){
             }
             else if (p3==0)
             {
-                char str3[80];
+                char str4[80];
+                char str5[80];
+
                 mkfifo(myfifo3, 0666);
                 fd3 = open(myfifo3,O_RDONLY);
                 mkfifo(myfifo5, 0666);
                 fd5 = open(myfifo5,O_RDONLY);
-                read(fd3, str2, 80);
-                close(fd2);
+                read(fd3, str4, 80);
+                close(fd3);
+                read(fd5,str5,80);
                 close(fd5);
+                printf("%s",strcat(str4,str5));
             }
         
         }
