@@ -19,7 +19,7 @@ char *remove_white_spaces(char *str)
 	str[j] = '\0';
 	return str;
 }
-char *decodeText(char *message)
+void decodeText(char *message, char decocdedText[])
 {
 	int i;
 	char ch;
@@ -48,28 +48,34 @@ char *decodeText(char *message)
 			message[i] = ch;
 		}
 	}
-	return message;
+	
+	decocdedText[0] = '\0';
+
+	strcpy(decocdedText, message);
 	
 }
 
  int main()
  {
+	
  	char fromMain[] = "/tmp/fifo1";
 	char toFinder[] = "/tmp/fifo4";
 	int fd1;
 	char outMain[1000];
+	char decodedText[1000];
+
 	mkfifo(fromMain, 0666);
 	fd1 = open(fromMain, O_RDONLY);
 	read(fd1, outMain, 1000);
 	close(fd1);
 
-	char* decodedText = decodeText(outMain);
+	decodeText(outMain, decodedText);
 
 	int fd2;
 	mkfifo(toFinder, 0666);
 	fd2 = open(toFinder, O_WRONLY);
-	weite(fd2, decodedText, strlen(decodedText) + 1);
+	
+	write(fd2, decodedText, strlen(decodedText) + 1);
 	close(fd2);
-
  	return 0;
  }

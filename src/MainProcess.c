@@ -7,11 +7,12 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-char* readFile(char*);
+void readFile(char*, char[]);
 char** splitInput(char*);
 
 int main() {
-    char* input = readFile("input.txt");
+    char input[1000];
+    readFile("input.txt", input);
     char** splits = splitInput(input);
     char fifos[][1000] = { 
         "/tmp/fifo1",
@@ -55,7 +56,6 @@ int main() {
 	write(fd, splits[2], strlen(splits[2]) + 1);
 	close(fd);
 
-    int fd;
     char outPlacer[1000];
 
 	mkfifo(fifos[2], 0666);
@@ -63,37 +63,38 @@ int main() {
 	read(fd, outPlacer, 1000);
 	close(fd);
 
-    printf("result text : %s\n", outPlacer);
+    printf("result is:%s\n", outPlacer);
 
 }
 
-char * readFile(char * filename){
+void readFile(char* filename, char outRead[]){
 //const char* filename = "input.txt";
+    FILE *fp = fopen(filename, "r");
 
-    FILE* input_file = fopen(filename, "r");
-    if (!input_file)
-        exit(EXIT_FAILURE);
-
-    struct stat sb;
-    if (stat(filename, &sb) == -1) {
-        perror("stat");
-        exit(EXIT_FAILURE);
+    if (fp == NULL)
+    {
+        printf("Error: could not open file %s", filename);
+        return;
     }
 
-    char* file_contents = malloc(sb.st_size);
-    fread(file_contents, sb.st_size, 1, input_file);
+    // read one character at a time and
+    // display it to the output
+    char out[1000];
+    char ch;
+    int i = 0;
+    while ((ch = fgetc(fp)) != EOF)
+        out[i++] = ch;
 
-    
-  //  printf("%s\n", file_contents);
+    out[i] = '\0';
+    outRead[0] = '\0';
 
-    fclose(input_file);
-    free(file_contents);
-    
-    return file_contents;
-    exit(EXIT_SUCCESS);
+    strcpy(outRead, out);
+
+    // close the file
+    fclose(fp);
 }
 
-char** splitInput(char* s){
+char** splitInput(char s[]){
     int end1=0,end2=0;
     int count = 0;
     char **strArr=(char**)malloc(sizeof(char*)*3);

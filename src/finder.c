@@ -17,7 +17,7 @@ struct Finder
 };
 
 
-char* finder(char processString[], char boundsString[]) {
+void finder(char processString[], char boundsString[], char output[]) {
     // "Finder"s which will be used to store the bounds. in the first
     // loop just bounds and in the second loop the string will be 
     // extracted completely
@@ -28,7 +28,7 @@ char* finder(char processString[], char boundsString[]) {
     int boundCnt = 0;
     // In this loop we extract the bounds and store them in a
     // "Finder" object 
-    for (int i = 0; boundsString[i] != '\0'; i++) {
+    for (int i = 0;; i++) {
         if (boundsString[i] >= '0' && boundsString[i] <= '9') {
             // That we are finding a number
             strncat(number, &boundsString[i], 1);
@@ -41,11 +41,11 @@ char* finder(char processString[], char boundsString[]) {
             // In the next line we empty the number string
             memset(number, 0, strlen(number));
         }
-        if (boundsString[i] == '$') {
+        if (boundsString[i] == '$' || boundsString[i] == '\0') {
             // As we stated above, to have the beginning of the bound we used stated codes
             // and now to have the end of the bound we should have the last number before $ sign
             int length = atoi(number);
-            finders[boundCnt].end = length + finders[boundCnt].start;
+            finders[boundCnt].end = length + finders[boundCnt].start - 1;
             // In the next line we empty the number string 
             memset(number, 0, strlen(number));
             char str[10000] = "";
@@ -57,19 +57,27 @@ char* finder(char processString[], char boundsString[]) {
                 finders[boundCnt].str[k] = str[k];
             finders[boundCnt].str[k] = '\0';
             boundCnt++;
+
+            if (boundsString[i] == '\0')
+            break;
         }
     }
 
-    char* finalStr = "\0";
+    char finalStr[1000];
+    finalStr[0] = '\0';
 
     for (int i = 0; i < boundCnt; i++) {
+        // printf("%s-\n", finders[i].str);
         strcat(finalStr, finders[i].str);
         strcat(finalStr, ",");
     }
 
-    finalStr[strlen(finalStr)] = '\0';
+    finalStr[strlen(finalStr) - 1] = '\0';
 
-    return finalStr;
+    output[0] = '\0';
+
+    strcpy(output, finalStr);
+   
 }
 
 int main() {
@@ -88,19 +96,26 @@ int main() {
 	read(fd, outParent, 1000);
 	close(fd);
 
+    // printf("%s\n", outParent);
+
     char outDecoder[1000];
 	mkfifo(fromDecoder, 0666);
 	fd = open(fromDecoder, O_RDONLY);
 	read(fd, outDecoder, 1000);
 	close(fd);
 
-    char* toPlacerStr = finder(outDecoder, outParent);
+    // printf("%s\n", outDecoder);
+
+    char toPlacerStr[1000];
+    finder(outDecoder, outParent, toPlacerStr);
+    // printf("%s\n", toPlacerStr);
+
+    // printf("%s\n", toPlacerStr);
 
     mkfifo(toPlacer, 0666);
     fd = open(toPlacer, O_WRONLY);
     write(fd, toPlacerStr, strlen(toPlacerStr) + 1);
     close(fd);
-    
     return 0;
 
 }
