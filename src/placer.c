@@ -1,7 +1,12 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<string.h>
+#include<sys/wait.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 char* replaceWord(const char* s,
 				const char* newW)
@@ -59,23 +64,31 @@ char* replaceAllWord(char newWord[][10],const char* s){
 
 int main()
 {
-	char str[] = "salam\n $ khobi $ . $";
-	
-	char ch_arr[3][10] = {
-                         "spike",
-                         "tom",
-                         "jerry"
-                     };
+	char fromParent[] = "/tmp/fifo3";
+    char fromFinder[] = "/tmp/fifo5";
+    char toParent[] = "/tmp/fifo5";
 
-	char* result = NULL;
+    int fd;
 
+    char outParent[1000];
+	mkfifo(fromParent, 0666);
+	fd = open(fromParent, O_RDONLY);
+	read(fd, outParent, 1000);
+	close(fd);
 
-	printf("Old string: %s\n", str);
+    char outFinder[1000];
+	mkfifo(fromFinder, 0666);
+	fd = open(fromFinder, O_RDONLY);
+	read(fd, outFinder, 1000);
+	close(fd);
 
-	result = replaceAllWord(ch_arr,str);
-	printf("New String: %s\n", result);
+    char* toParentStr = replaceAllWord(outFinder,outParent);
 
-	free(result);
-	return 0;
+    mkfifo(toParent, 0666);
+    fd = open(toParent, O_WRONLY);
+    write(fd, toParentStr, strlen(toParentStr) + 1);
+    close(fd);
+    
+    return 0;
 }
 
