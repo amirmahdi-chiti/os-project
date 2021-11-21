@@ -50,7 +50,7 @@ char* replaceWord(const char* s,
 	result[i] = '\0';
 	return result;
 }
-char* replaceAllWord(char newWord[][10],const char* s){
+char* replaceAllWord(char newWord[][100],const char* s){
     for (int i = 0; i < 3; i++)
     {
         char* n = newWord[i];
@@ -66,7 +66,7 @@ int main()
 {
 	char fromParent[] = "/tmp/fifo3";
     char fromFinder[] = "/tmp/fifo5";
-    char toParent[] = "/tmp/fifo5";
+    char toParent[] = "/tmp/fifo3";
 
     int fd;
 
@@ -82,11 +82,25 @@ int main()
 	read(fd, outFinder, 1000);
 	close(fd);
 
-    char* toParentStr = replaceAllWord(outFinder,outParent);
+	char* finalString;
+	char stringsPassed[100][1000];
+
+	char *token = strtok(fromFinder, ",");
+
+    int i = 0;
+    while (token != NULL)
+    {
+        stringsPassed[i][0] = '\0';
+		strcpy(stringsPassed[i], token);
+        token = strtok(NULL, ",");
+		i++;
+    }
+
+	finalString = replaceAllWord(stringsPassed, outParent);
 
     mkfifo(toParent, 0666);
     fd = open(toParent, O_WRONLY);
-    write(fd, toParentStr, strlen(toParentStr) + 1);
+    write(fd, finalString, strlen(finalString) + 1);
     close(fd);
     
     return 0;
