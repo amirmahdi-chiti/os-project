@@ -30,9 +30,8 @@ void decodeText(char *message, char decocdedText[])
 	int i;
 	char ch;
 	int key = 3;
+	
 	strcpy(message,simplify(message));
-
-	// simplify(message);
 	
 	for (i = 0; message[i] != '\0'; ++i)
 	{
@@ -63,6 +62,21 @@ void decodeText(char *message, char decocdedText[])
 	
 }
 
+void writeInFile(char * filename , char* s)
+{
+    
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening the file %s", filename);
+        return;
+    }
+    
+    fprintf(fp, "%s",s);
+
+    fclose(fp);
+}
+
  int main()
  {
 	
@@ -78,6 +92,7 @@ void decodeText(char *message, char decocdedText[])
 	close(fd1);
 
 	decodeText(outMain, decodedText);
+	writeInFile("decoded.txt", decodedText);
 
 	int fd2;
 	mkfifo(toFinder, 0666);

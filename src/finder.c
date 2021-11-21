@@ -80,6 +80,21 @@ void finder(char processString[], char boundsString[], char output[]) {
    
 }
 
+void writeInFile(char * filename , char* s)
+{
+    
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening the file %s", filename);
+        return;
+    }
+    
+    fprintf(fp, "%s",s);
+
+    fclose(fp);
+}
+
 int main() {
     char boundsString[10000];
     char proccessString[10000];
@@ -96,21 +111,15 @@ int main() {
 	read(fd, outParent, 1000);
 	close(fd);
 
-    // printf("%s\n", outParent);
-
     char outDecoder[1000];
 	mkfifo(fromDecoder, 0666);
 	fd = open(fromDecoder, O_RDONLY);
 	read(fd, outDecoder, 1000);
 	close(fd);
 
-    // printf("%s\n", outDecoder);
-
     char toPlacerStr[1000];
     finder(outDecoder, outParent, toPlacerStr);
-    // printf("%s\n", toPlacerStr);
-
-    // printf("%s\n", toPlacerStr);
+    writeInFile("found.txt", toPlacerStr);
 
     mkfifo(toPlacer, 0666);
     fd = open(toPlacer, O_WRONLY);

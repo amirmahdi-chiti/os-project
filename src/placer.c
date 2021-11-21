@@ -68,6 +68,21 @@ void replaceAllWord(char newWord[][1000],const char* s, int size, char output[])
 	strcpy(output, strOut);
 }
 
+void writeInFile(char * filename , char* s)
+{
+    
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening the file %s", filename);
+        return;
+    }
+    
+    fprintf(fp, "%s",s);
+
+    fclose(fp);
+}
+
 int main()
 {
 	
@@ -103,10 +118,9 @@ int main()
         token = strtok(NULL, ",");
 		i++;
     }
-	// printf("%d\n", )
+	
 	replaceAllWord(stringsPassed, outParent, i, finalString);
-
-	// printf("%s\n", finalString);
+	writeInFile("placed.txt", finalString);
 
     mkfifo(toParent, 0666);
     fd = open(toParent, O_WRONLY);

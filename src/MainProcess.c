@@ -100,7 +100,7 @@ char** splitInput(char s[]){
     char **strArr=(char**)malloc(sizeof(char*)*3);
     for(int i=0;i<3;i++)
     {
-        strArr[i]=(char*)malloc(200);
+        strArr[i]=(char*)malloc(1000);
     }
     for(int i = 0;i<strlen(s);i++){
         if(s[i]=='#'&& s[i+1]=='#'&&s[i+2]=='#'){
