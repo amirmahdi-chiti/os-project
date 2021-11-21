@@ -95,11 +95,11 @@ int main(){
             close(fd2);
             execv("./findProcess", NULL);
 
-            // mkfifo(myfifo4, 0666);
-            // fd4 = open(myfifo4,O_RDONLY);
-            // read(fd4, str3, 80);
-            // printf("%s\n", str3);
-            // close(fd4);
+            mkfifo(myfifo4, 0666);
+            fd4 = open(myfifo4,O_RDONLY);
+            read(fd4, str3, 80);
+            printf("%s\n", str3);
+            close(fd4);
         
         }
     } 
@@ -111,10 +111,10 @@ int main(){
     }
     else if (p1==0)
     {
-        mkfifo(myfifo1, 0666);
-        fd1 = open(myfifo1,O_RDONLY);
-        read(fd1, str1, 80);
-        close(fd1);
+        // mkfifo(myfifo1, 0666);
+        // fd1 = open(myfifo1,O_RDONLY);
+        // read(fd1, str1, 80);
+        // close(fd1);
         execv("./decodeProcess",NULL);
     }
     
