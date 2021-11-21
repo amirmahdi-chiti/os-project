@@ -50,8 +50,8 @@ char* replaceWord(const char* s,
 	result[i] = '\0';
 	return result;
 }
-char* replaceAllWord(char newWord[][100],const char* s){
-    for (int i = 0; i < 3; i++)
+char* replaceAllWord(char newWord[][100],const char* s, int size){
+    for (int i = 0; i < size; i++)
     {
         char* n = newWord[i];
         //char* result = NULL;
@@ -96,7 +96,7 @@ int main()
 		i++;
     }
 
-	finalString = replaceAllWord(stringsPassed, outParent);
+	finalString = replaceAllWord(stringsPassed, outParent, i);
 
     mkfifo(toParent, 0666);
     fd = open(toParent, O_WRONLY);
