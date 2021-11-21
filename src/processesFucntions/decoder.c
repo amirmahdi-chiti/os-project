@@ -46,13 +46,13 @@ char *decodeText(char *message)
 	
 }
 
- int main()
- {
- 	char message[100], ch;
-	int i, key;
- 	printf("Enter a message to decrypt: ");
- 	gets(message);
- 	printf("%s", decodeText(message));
- 	printf("\n");
- 	return 0;
- }
+//  int main()
+//  {
+//  	char message[100], ch;
+// 	int i, key;
+//  	printf("Enter a message to decrypt: ");
+//  	gets(message);
+//  	printf("%s", decodeText(message));
+//  	printf("\n");
+//  	return 0;
+//  }
