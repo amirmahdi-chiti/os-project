@@ -55,6 +55,16 @@ int main() {
 	write(fd, splits[2], strlen(splits[2]) + 1);
 	close(fd);
 
+    int fd;
+    char outPlacer[1000];
+
+	mkfifo(fifos[2], 0666);
+	fd = open(fifos[2], O_RDONLY);
+	read(fd, outPlacer, 1000);
+	close(fd);
+
+    printf("result text : %s\n", outPlacer);
+
 }
 
 char * readFile(char * filename){
